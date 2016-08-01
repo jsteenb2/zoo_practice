@@ -444,3 +444,18 @@ HAVING COUNT(title)=(SELECT MAX(c) FROM
  GROUP BY yr) AS t
 )
 ```
+
+13.
+
+```sql
+SELECT movie.title, actor.name FROM actor
+       JOIN casting ON actor.id = casting.actorid
+       JOIN movie ON casting.movieid = movie.id
+      WHERE casting.ord = 1 AND casting.movieid IN (
+			SELECT movieid FROM movie
+			            JOIN casting ON movie.id = casting.movieid 
+			            JOIN actor ON casting.actorid = actor.id
+			WHERE actorid IN (
+			  SELECT id FROM actor
+			  WHERE name='Julie Andrews'))
+```
