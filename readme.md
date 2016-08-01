@@ -2,18 +2,21 @@
 ## BASIC
 
 1.
+
 ```sql
 SELECT population FROM world
   WHERE name = 'Germany';
 ```
 
 2.
+
 ```sql
   SELECT name, population FROM world
   WHERE name IN ('Ireland', 'Iceland', 'Denmark');
 ```
 
 3.
+
 ```sql
   SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000;
@@ -22,48 +25,63 @@ SELECT population FROM world
 ## SELECT from WORLD
 
 1.
+
 ```sql
 SELECT name, continent, population FROM world
 ```
 
 2.
+
 ```sql
 SELECT name FROM world
 WHERE population>200000000
 ```
 3.
+
 ```sql
 SELECT name, gdp/population FROM world
 WHERE population>200000000
 ```
+
 4.
+
 ```sql
 SELECT name, population/1000000 FROM world
 WHERE continent = 'South America'
 ```
+
 5.
+
 ```sql
 SELECT name, population FROM world
 WHERE name IN ('France', 'Germany', 'Italy')
 ```
+
 6.
+
 ```sql
 SELECT name FROM world
 WHERE name LIKE '%UNITED%'
 ```
+
 7.
+
 ```sql
 SELECT name, population, area FROM world
 WHERE area > 3000000
 OR population > 250000000
 ```
+
 8.
+
 ```sql
 SELECT name, population, area FROM world
 WHERE area > 3000000
 XOR population > 250000000
 ```
+
 9.
+
 ```sql
 SELECT name, ROUND(population/1000000,2), ROUND(gdp/1000000000,2) FROM world
 WHERE continent = 'South America'
@@ -83,6 +101,7 @@ SELECT name,
   FROM world
  WHERE name LIKE 'N%'
  ```
+ 
 12.
 
 ```sql
@@ -206,6 +225,7 @@ where winner = "EUGENE O'NEILL"
 ```
 
 13.
+
 ```sql
 SELECT winner, yr, subject FROM nobel
 where winner LIKE 'Sir %'
@@ -213,6 +233,7 @@ ORDER BY yr DESC, winner
 ```
 
 14.
+
 ```sql
 SELECT winner, subject
   FROM nobel
@@ -223,12 +244,14 @@ SELECT winner, subject
 ###JOIN OPERATION
 
 1.
+
 ```sql
 SELECT matchid, player FROM goal
   WHERE teamid = 'GER'
 ```
 
 2.
+
 ```sql
 SELECT id,stadium,team1,team2
   FROM game
@@ -236,6 +259,7 @@ WHERE id = '1012'
 ```
 
 3.
+
 ```sql
 SELECT player,teamid,stadium, mdate
   FROM game JOIN goal ON (id=matchid)
@@ -243,6 +267,7 @@ WHERE goal.teamid = 'GER'
 ```
 
 4.
+
 ```sql
 SELECT team1,team2,player
   FROM game JOIN goal ON (id=matchid)
@@ -250,6 +275,7 @@ WHERE player LIKE 'Mario%'
 ```
 
 5.
+
 ```sql
 SELECT player, teamid, coach, gtime
   FROM goal JOIN eteam ON teamid=id
@@ -257,6 +283,7 @@ SELECT player, teamid, coach, gtime
 ```
 
 6.
+
 ```sql
 SELECT mdate, teamname
   FROM game JOIN eteam ON team1=eteam.id
@@ -264,6 +291,7 @@ SELECT mdate, teamname
 ```
 
 7.
+
 ```sql
 SELECT player
  FROM game JOIN goal ON id=matchid
@@ -271,6 +299,7 @@ SELECT player
 ```
 
 8.
+
 ```sql
 SELECT DISTINCT player
   FROM game JOIN goal ON matchid = id
@@ -279,6 +308,7 @@ AND goal.teamid != 'GER'
 ```
 
 9.
+
 ```sql
 SELECT eteam.teamname, COUNT(*)
   FROM goal JOIN eteam ON goal.teamid = eteam.id
@@ -286,6 +316,7 @@ SELECT eteam.teamname, COUNT(*)
 ```
 
 10.
+
 ```sql
 SELECT game.stadium, COUNT(*)
   FROM goal JOIN game ON goal.matchid = game.id
