@@ -538,3 +538,198 @@ FROM actor d JOIN casting a ON (a.actorid=d.id)
                 AND c.name='Art Garfunkel')
   WHERE d.id!=c.id
 ```
+### Sum & Count
+
+1.
+
+```sql
+SELECT SUM(population)
+	FROM world
+```
+
+2.
+
+```sql
+select DISTINCT continent FROM world
+```
+
+3.
+
+```sql
+SELECT SUM(GDP) FROM world
+	WHERE continent = 'Africa'
+```
+
+4.
+
+```sql
+SELECT COUNT(name) from world
+where area > 1000000
+```
+
+5.
+
+```sql
+select sum(population) from world
+where name IN ('France','Germany','Spain')
+```
+
+6.
+
+```sql
+SELECT continent, count(name) from world
+group by continent
+```
+
+7.
+
+```sql
+select continent, count(name) from world
+where population >= 10000000
+GROUP BY continent
+```
+
+8.
+
+```sql
+select continent from world
+group by continent
+having sum(population) > 100000000
+```
+
+# Subqueries
+
+### SELECT within SELECT
+
+1.
+
+```sql
+SELECT name FROM world
+  WHERE population >
+     (SELECT population FROM world
+      WHERE name='Russia')
+```
+
+2.
+
+```sql
+SELECT name
+FROM world
+  WHERE continent = 'Europe' AND gdp / population >
+     (SELECT gdp / population FROM world
+      WHERE name='United Kingdom')
+```
+
+3.
+
+```sql
+SELECT name, continent FROM world 
+WHERE continent IN (SELECT continent FROM world WHERE name = 'Australia' OR name = 'Argentina') 
+ORDER BY name
+```
+
+4.
+
+```sql
+select name, population from world
+where population > (SELECT population FROM world where name = 'Canada') AND 
+population < (SELECT population FROM world WHERE name = 'Poland')
+```
+
+5.
+
+```sql
+select name, CONCAT(ROUND(100 * population / (SELECT population FROM world WHERE name = 'Germany')), '%')
+FROM world
+WHERE continent = 'Europe'
+```
+
+6.
+
+```sql
+select name from world
+WHERE gdp > ALL(select gdp from world where continent = 'Europe' AND gdp IS NOT NULL)
+```
+
+7.
+
+```sql
+SELECT continent, name, area FROM world x
+  WHERE area >= ALL
+    (SELECT area FROM world y
+        WHERE y.continent=x.continent
+          AND area>0)
+```
+
+8.
+
+```sql
+SELECT continent, name FROM world x
+   WHERE name = (SELECT name FROM world y WHERE x.continent = y.continent ORDER BY name ASC LIMIT 1)
+```
+
+9.
+
+```sql
+SELECT name, continent, population FROM world x
+WHERE 25000000 > ALL(SELECT population FROM world y
+                                WHERE x.continent = y.continent) 
+```
+
+10.
+
+```sql
+SELECT name, continent FROM world x
+   WHERE population > ALL(SELECT population * 3 FROM world y WHERE x.continent = y.continent AND x.name != y.name)
+```
+
+### NULL, Innter JOIN, LET JOIN, RIGHT JOIN
+
+1.
+
+```sql
+SELECT name FROM teacher
+WHERE dept IS NULL
+```
+
+2.
+
+```sql
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+```
+
+3.
+
+```sql
+SELECT teacher.name, dept.name
+ FROM teacher LEFT JOIN dept
+           ON (teacher.dept=dept.id)
+```
+
+4.
+
+```sql
+SELECT teacher.name, dept.name
+ FROM teacher RIGHT JOIN dept
+           ON (teacher.dept=dept.id)
+```
+
+5.
+
+```sql
+SELECT name, COALESCE(mobile,'07986 444 2266') AS mobiley FROM teacher
+```
+
+6.
+
+```sql
+
+```
+
+7.
+
+```sql
+
+```
