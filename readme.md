@@ -431,7 +431,7 @@ SELECT movie.title, actor.name
 12.
 
 ```sql
-SELECT yr,COUNT(title) FROM
+SELECT yr, COUNT(title) FROM
   movie JOIN casting ON movie.id=movieid
          JOIN actor   ON actorid=actor.id
 WHERE name='John Travolta'
@@ -477,4 +477,33 @@ SELECT movie.title, COUNT(actorid)
   WHERE movie.yr = 1978
   GROUP BY movie.title
   ORDER BY 2 DESC
+```
+
+16.
+
+```sql
+SELECT DISTINCT name FROM actor
+where id IN
+(SELECT actorid
+FROM movie JOIN casting
+ON movie.id=movieid
+JOIN actor ON actor.id=movieid
+where movie.id
+ IN
+(SELECT movieid
+  FROM actor JOIN casting
+    ON actor.id = actorid
+  WHERE actor.name = 'Art Garfunkel'))
+AND name !='Art Garfunkel'
+```
+
+or
+
+```sql
+SELECT DISTINCT d.name
+FROM actor d JOIN casting a ON (a.actorid=d.id)
+   JOIN casting b ON (a.movieid=b.movieid)
+   JOIN actor c ON (b.actorid=c.id
+                AND c.name='Art Garfunkel')
+  WHERE d.id!=c.id
 ```
