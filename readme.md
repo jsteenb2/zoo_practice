@@ -106,7 +106,7 @@ SELECT name,
               WHEN name = 'Turkey' THEN 'Europe/Asia'
              WHEN name LIKE 'B%' AND continent = 'Caribbean'  THEN 'North America'  
             WHEN name NOT LIKE 'B%' AND continent = 'Caribbean' THEN 'South America'
-             ELSE continent 
+             ELSE continent
    END
 FROM world
 ORDER BY name ASC
@@ -143,7 +143,7 @@ WHERE winner = 'Albert Einstein'
 
 ```sql
 SELECT winner FROM nobel
-WHERE subject = 'Peace' 
+WHERE subject = 'Peace'
              AND  yr >= 2000
 ```
 
@@ -181,4 +181,140 @@ WHERE subject = 'Physics' AND yr = 1980
 ```sql
 SELECT * FROM nobel
 WHERE subject NOT IN ('Chemistry', 'Medicine') AND yr = 1980
+```
+
+10.
+
+```sql
+SELECT * FROM nobel
+WHERE subject = 'Medicine' AND yr<1910
+OR subject = 'Literature' AND yr>=2004
+```
+
+11.
+
+```sql
+SELECT * FROM nobel
+where winner = 'PETER GRÜNBERG'
+```
+
+12.
+
+```sql
+SELECT * FROM nobel
+where winner = "EUGENE O'NEILL"
+```
+
+13.
+```sql
+SELECT winner, yr, subject FROM nobel
+where winner LIKE 'Sir %'
+ORDER BY yr DESC, winner
+```
+
+14.
+```sql
+SELECT winner, subject
+  FROM nobel
+ WHERE yr=1984
+ ORDER BY subject IN ('Physics','Chemistry'),subject,winner
+```
+
+###JOIN OPERATION
+
+1.
+```sql
+SELECT matchid, player FROM goal
+  WHERE teamid = 'GER'
+```
+
+2.
+```sql
+SELECT id,stadium,team1,team2
+  FROM game
+WHERE id = '1012'
+```
+
+3.
+```sql
+SELECT player,teamid,stadium, mdate
+  FROM game JOIN goal ON (id=matchid)
+WHERE goal.teamid = 'GER'
+```
+
+4.
+```sql
+SELECT team1,team2,player
+  FROM game JOIN goal ON (id=matchid)
+WHERE player LIKE 'Mario%'
+```
+
+5.
+```sql
+SELECT player, teamid, coach, gtime
+  FROM goal JOIN eteam ON teamid=id
+ WHERE gtime<=10
+```
+
+6.
+```sql
+SELECT mdate, teamname
+  FROM game JOIN eteam ON team1=eteam.id
+ WHERE coach = 'Fernando Santos'
+```
+
+7.
+```sql
+SELECT player
+ FROM game JOIN goal ON id=matchid
+ WHERE stadium = 'National Stadium, Warsaw'
+```
+
+8.
+```sql
+SELECT DISTINCT player
+  FROM game JOIN goal ON matchid = id
+    WHERE (team1='GER' OR team2='GER')
+AND goal.teamid != 'GER'
+```
+
+9.
+```sql
+SELECT eteam.teamname, COUNT(*)
+  FROM goal JOIN eteam ON goal.teamid = eteam.id
+  Group by eteam.teamname
+```
+
+10.
+```sql
+SELECT game.stadium, COUNT(*)
+  FROM goal JOIN game ON goal.matchid = game.id
+  Group by game.stadium
+```
+
+11.
+```sql
+SELECT matchid, mdate, COUNT(*)
+  FROM game JOIN goal ON matchid = id
+ WHERE (team1 = 'POL' OR team2 = 'POL')
+GROUP BY matchid, mdate
+```
+
+12.
+```sql
+select matchid, mdate, count(*)
+FROM game join goal on matchid = id
+where goal.teamid = 'GER'
+GROUP BY matchid, mdate
+```
+
+13.
+```sql
+SELECT mdate,
+  team1,   
+  SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) score1,
+  team2,
+  SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
+  FROM game  JOIN goal ON matchid = id
+GROUP BY mdate, team1, team2
 ```
