@@ -399,7 +399,7 @@ SELECT id
 6.
 
 ```sql
-SELECT id 
+SELECT id
   FROM movie
   WHERE title = 'Casablanca'
 ```
@@ -408,7 +408,7 @@ SELECT id
 
 ```sql
 SELECT actor.name
-  FROM movie JOIN casting 
+  FROM movie JOIN casting
                                   ON movie.id = casting.movieid
                         JOIN actor         
                                  ON casting.actorid = actor.id
@@ -419,7 +419,7 @@ SELECT actor.name
 
 ```sql
 SELECT actor.name
-  FROM movie JOIN casting 
+  FROM movie JOIN casting
                                   ON movie.id = casting.movieid
                         JOIN actor         
                                  ON casting.actorid = actor.id
@@ -430,7 +430,7 @@ SELECT actor.name
 
 ```sql
 SELECT movie.title
-  FROM movie JOIN casting 
+  FROM movie JOIN casting
                                   ON movie.id = casting.movieid
                         JOIN actor         
                                  ON casting.actorid = actor.id
@@ -441,7 +441,7 @@ SELECT movie.title
 
 ```sql
 SELECT movie.title
-  FROM movie JOIN casting 
+  FROM movie JOIN casting
                                   ON movie.id = casting.movieid
                         JOIN actor         
                                  ON casting.actorid = actor.id
@@ -483,10 +483,29 @@ SELECT movie.title, actor.name FROM actor
        JOIN casting ON actor.id = casting.actorid
        JOIN movie ON casting.movieid = movie.id
       WHERE casting.ord = 1 AND casting.movieid IN (
-			SELECT movieid FROM movie
-			            JOIN casting ON movie.id = casting.movieid 
-			            JOIN actor ON casting.actorid = actor.id
+			SELECT casting
 			WHERE actorid IN (
 			  SELECT id FROM actor
 			  WHERE name='Julie Andrews'))
+```
+
+14.
+
+```sql
+SELECT actor.name
+  FROM actor
+  JOIN casting ON actor.id = actorid
+    WHERE casting.ord = 1
+  GROUP BY actor.name
+    HAVING COUNT(*) >= 30
+```
+
+15.
+
+```sql
+SELECT movie.title, COUNT(actorid)
+  FROM casting JOIN movie ON movieid = movie.id
+  WHERE movie.yr = 1978
+  GROUP BY movie.title
+  ORDER BY 2 DESC
 ```
