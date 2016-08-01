@@ -69,11 +69,13 @@ SELECT name, ROUND(population/1000000,2), ROUND(gdp/1000000000,2) FROM world
 WHERE continent = 'South America'
 ```
 10.
+
 ```sql
 SELECT name, ROUND(gdp/population,-3) FROM world
 WHERE gdp > 1000000000000
 ```
 11.
+
 ```sql
 SELECT name,
        CASE WHEN continent='Oceania' THEN 'Australasia'
@@ -82,6 +84,7 @@ SELECT name,
  WHERE name LIKE 'N%'
  ```
 12.
+
 ```sql
 SELECT name,
   CASE WHEN continent = 'Europe' THEN 'Eurasia'
@@ -92,4 +95,90 @@ SELECT name,
   ELSE continent END
   FROM world
  WHERE name LIKE 'A%' OR name LIKE 'B%'
+```
+
+13.
+
+```sql
+ SELECT name, continent,
+  CASE WHEN continent = 'Oceania' THEN 'Australasia'
+           WHEN continent = 'Eurasia' THEN 'Europe/Asia'
+              WHEN name = 'Turkey' THEN 'Europe/Asia'
+             WHEN name LIKE 'B%' AND continent = 'Caribbean'  THEN 'North America'  
+            WHEN name NOT LIKE 'B%' AND continent = 'Caribbean' THEN 'South America'
+             ELSE continent 
+   END
+FROM world
+ORDER BY name ASC
+```
+
+###Nobel
+
+1.
+
+```sql
+SELECT yr, subject, winner
+  FROM nobel
+ WHERE yr = 1950
+```
+
+2.
+
+```sql
+SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'Literature'
+```
+
+
+3.
+
+```sql
+SELECT yr, subject FROM nobel
+WHERE winner = 'Albert Einstein'
+```
+
+4.
+
+```sql
+SELECT winner FROM nobel
+WHERE subject = 'Peace' 
+             AND  yr >= 2000
+```
+
+5.
+
+```sql
+SELECT yr, subject, winner FROM nobel
+WHERE yr BETWEEN 1980 AND 1989 AND subject = 'Literature'
+```
+
+6.
+
+```sql
+SELECT * FROM nobel
+ WHERE winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jimmy Carter')
+```
+
+7.
+
+```sql
+SELECT winner FROM nobel
+WHERE winner LIKE 'John %'
+```
+
+8.
+
+```sql
+SELECT * FROM nobel
+WHERE subject = 'Physics' AND yr = 1980
+           OR yr = 1984 AND subject = 'Chemistry'
+```
+
+9.
+
+```sql
+SELECT * FROM nobel
+WHERE subject NOT IN ('Chemistry', 'Medicine') AND yr = 1980
 ```
